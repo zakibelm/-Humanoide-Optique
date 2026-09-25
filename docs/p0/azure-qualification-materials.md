@@ -166,7 +166,26 @@ No placeholder or synthetic local audio was created.
 
 ### Human recordings required
 
-No real human fr-CA or Darija recordings were supplied. Therefore:
+The founder is identified as the primary reviewer and recording speaker. He is a native speaker of fr-CA and Moroccan Darija and can provide the human recordings.
+
+### Simplified self-recording guide
+
+1. Record **one fixture per file**.
+2. Use uncompressed **WAV**, mono, at either **16 kHz** or **44.1 kHz**. Keep the same sample rate for a complete recording session when possible.
+3. For FQ01–FQ15, DJ01–DJ15 and CS01–CS10, record in a quiet room, approximately 20–40 cm from the microphone, at a natural in-store speaking pace.
+4. Read the sentence naturally. Do not over-articulate, imitate a synthetic voice or translate the code-switched words.
+5. Name every file exactly after its fixture ID:
+   - FQ01.wav through FQ15.wav
+   - DJ01.wav through DJ15.wav
+   - CS01.wav through CS10.wav
+   - NZ01.wav through NZ10.wav
+6. For NZ01–NZ10, reproduce or mix the noise condition defined in section 7 while preserving the same spoken reference. Do not speak the description of the noise.
+7. Listen once for accidental truncation or a wrong sentence. Re-record only technical mistakes; natural hesitations should not be systematically removed.
+8. Keep the original WAV files unchanged. Any converted copy must receive a distinct derived filename and hash.
+
+One native speaker is sufficient to bootstrap P0 qualification. This is a documented methodological limitation: the single speaker is also the founder and primary reviewer, creating potential speaker, familiarity and stakeholder bias. The evidence report must disclose this limitation, and later validation should add at least one independent native Darija reviewer and a second fr-CA speaker.
+
+At the time of this update, the founder is ready to record but no audio file has yet been supplied. Therefore:
 
 - STT transcription was not called;
 - no hypothesis transcript exists;
@@ -227,21 +246,74 @@ TTS human listening criteria:
 
 ## 12. Human score sheet
 
-Each reviewer completes one row per TTS file:
+Reviewer ID: ____________________  
+Review date: ____________________  
+Native/qualified languages: [ ] fr-CA  [ ] Darija
 
-| Field | Allowed value |
-|---|---|
-| fixture_id | FQ01–NZ10 |
-| reviewer_id | pseudonymous identifier |
-| qualified_fr_ca | yes/no |
-| qualified_darija | yes/no |
-| intelligibility | 1–5 |
-| naturalness | 1–5 |
-| accent_acceptability | 1–5 |
-| pronunciation_error | yes/no + note |
-| meaning_changed | yes/no + note |
-| clipping_or_truncation | yes/no + note |
-| comments | free text |
+Fill one row while listening to each Azure TTS file. For Darija and code-switched fixtures, the **natural vs too academic/MSA** judgment is mandatory and is the most important native-speaker signal.
+
+| File | Intelligibility | Naturalness | Darija register | Meaning changed | Clip/truncation | Short note |
+|---|---:|---:|---|---|---|---|
+| FQ01.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ02.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ03.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ04.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ05.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ06.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ07.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ08.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ09.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ10.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ11.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ12.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ13.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ14.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| FQ15.wav | ___/5 | ___/5 | N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ01.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ02.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ03.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ04.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ05.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ06.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ07.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ08.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ09.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ10.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ11.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ12.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ13.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ14.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| DJ15.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS01.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS02.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS03.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS04.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS05.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS06.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS07.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS08.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS09.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| CS10.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ01.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ02.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ03.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ04.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ05.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ06.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ07.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ08.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ09.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+| NZ10.wav | ___/5 | ___/5 | [ ] naturel [ ] trop académique/MSA [ ] N/A | [ ] oui [ ] non | [ ] oui [ ] non | |
+
+Quick scale:
+
+- 1 = unusable
+- 2 = difficult
+- 3 = understandable but clearly flawed
+- 4 = acceptable for an in-store prototype
+- 5 = natural and immediately understandable
+
+For any score below 4, add a short reason. For a Darija/code-switch file, always check either **naturel** or **trop académique/MSA**.
 
 The panel owner aggregates scores and records the verdict. Work must not assign it.
 
@@ -266,6 +338,10 @@ The panel owner aggregates scores and records the verdict. Work must not assign 
 
 Completed: 50 text fixtures, file naming, manifest schema, WER protocol, thresholds and human score sheet.
 
-Blocked: Azure resource access, TTS generation, real human recordings, STT transcription, WER measurement and human listening.
+Primary reviewer identified: the founder, a native fr-CA and Darija speaker.
+
+**Only technical blocker before execution:** access to an Azure Speech sandbox resource in Canada Central or Canada East. No Azure key, endpoint or authenticated resource access has been provided.
+
+Pending human work after the Azure resource is available: record the 50 WAV fixtures, listen to generated TTS, complete the score sheet and sign the verdict. STT transcription and WER remain pending until the recordings exist.
 
 **No PASS/PARTIAL/FAIL qualification verdict has been issued. M3 remains closed.**
