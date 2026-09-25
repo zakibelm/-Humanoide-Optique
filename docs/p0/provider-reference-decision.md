@@ -41,7 +41,7 @@ Prices are public indicators observed on 2026-09-25, generally USD before taxes,
 
 - **Streaming:** confirmed WebSocket streaming; Nova-3 supports batch and streaming.
 - **Languages:** English, French and Arabic; Nova-3 explicitly lists ar-MA. French is generic/multilingual, not a distinct fr-CA locale.
-- **Pricing:** public indicator around **$0.29/audio hour monolingual streaming** and **$0.35/audio hour multilingual**, subject to plan confirmation.
+- **Pricing:** **$0.0077/minute ($0.46/hour) monolingual** and **$0.0092/minute ($0.55/hour) multilingual**, subject to current plan confirmation immediately before M3.
 - **Data:** mip_opt_out=true excludes model improvement and gives zero content retention after the response; metadata and usage logs remain.
 - **Strengths:** simple real-time API; low latency/cost position; explicit Arabic dialects.
 - **Limits:** no explicit fr-CA profile; Canadian French accuracy and Canadian data residency remain to prove.
@@ -50,11 +50,11 @@ Prices are public indicators observed on 2026-09-25, generally USD before taxes,
 
 ## TTS candidates
 
-### TTS-A — Microsoft Azure Speech
+### TTS-A — Microsoft Azure Neural TTS
 
 - **Streaming:** progressive synthesis/stream consumption through the Speech SDK/API.
 - **Languages:** Canadian French and English voices plus Arabic voices/locales.
-- **Pricing:** billed per synthesized character; capture the exact voice tier and regional rate.
+- **Pricing:** **$16 per 1 million characters** for standard Neural TTS; capture the regional price snapshot immediately before M3.
 - **Data:** Microsoft states no data is persisted in TTS processing.
 - **Strengths:** explicit local voices; enterprise governance; one platform with Azure STT; SSML/pronunciation controls.
 - **Limits:** naturalness and first-audio latency require measurement; premium/custom tiers differ.
@@ -90,31 +90,52 @@ Prices are public indicators observed on 2026-09-25, generally USD before taxes,
 | STT | Azure Speech | Yes | Explicit | Explicit | Multiple locales | Real-time audio not stored at rest | Regional price + Darija |
 | STT | Google Chirp 3 | Yes | Explicit | Yes | ar-MA explicit | Audio in-memory; temporary metadata | Region/model matrix |
 | STT | Deepgram Nova-3 | Yes | Generic French | Yes | ar-MA explicit | Opt-out zero content retention | fr-CA accuracy |
-| TTS | Azure Speech | Yes | Explicit voices | Explicit voices | Multiple locales | TTS data not persisted per docs | Voice/latency |
+| TTS | Azure Neural TTS | Yes | Explicit voices | Explicit voices | Multiple locales | TTS data not persisted per docs | $16/1M chars; voice/latency panel |
 | TTS | Google Chirp 3 HD | Yes | Explicit voices | Yes | ar-XA MSA | Contract/region review | Darija suitability |
 | TTS | ElevenLabs | Yes | Documented | Documented | Documented | Zero retention enterprise-only | Governance + accent |
 
+## Intensive-volume scenario — 8 hours/day
+
+Standardized planning assumptions:
+
+- 8 hours/day × 30 days = **240 audio hours/month** = **14,400 minutes**;
+- Deepgram Nova-3 monolingual: 14,400 × $0.0077 = **$110.88/month**;
+- synthesized output assumption: **10.8 million characters/month**, equivalent to about 750 characters per active minute;
+- infrastructure, taxes, currency conversion, silence ratio, retries, free tiers and enterprise discounts excluded.
+
+| Combination | STT/month | TTS/month | Comparable total/month |
+|---|---:|---:|---:|
+| Deepgram + Azure Neural TTS | $110.88 | 10.8M × $16/1M = $172.80 | **$283.68 ≈ $283** |
+| Deepgram + ElevenLabs Flash/Turbo | $110.88 | 10.8M × $0.05/1K = $540.00 | **$650.88 ≈ $650** |
+| Deepgram + ElevenLabs Multilingual | $110.88 | 10.8M × $0.10/1K = $1,080.00 | **$1,190.88 ≈ $1,191** |
+
+**Arithmetic clarification:** $1,080 is the ElevenLabs Multilingual **TTS-only** component. A combined Deepgram + ElevenLabs Multilingual total under the same assumptions is approximately $1,191/month. Presenting $1,080 as the combined total would omit the $110.88 STT cost and would not be comparable to the other two totals.
+
+These are planning estimates, not invoices. Actual audio minutes and synthesized character volume must be measured during P0.
+
 ## Recommendation — not a selection
 
-### Recommended first benchmark pair
+### Recommended cost-optimized reference pair
 
-- **STT:** Azure Speech as conservative reference candidate.
-- **TTS:** Azure Speech as conservative reference candidate.
+- **STT:** Deepgram Nova-3.
+- **TTS:** Azure Neural TTS.
 
-Rationale: explicit Canadian French, one enterprise speech platform, mature real-time interfaces and clearer real-time retention statements reduce integration and governance uncertainty.
+Rationale: the best-of-breed combination gives the lowest estimated intensive-volume cost among the compared pairs while preserving real streaming. Deepgram provides the lower-cost STT layer and explicit Arabic dialect coverage; Azure Neural TTS provides fr-CA and Arabic voices at a materially lower character cost than ElevenLabs.
+
+This recommendation is conditional: Deepgram's generic French must pass the fr-CA fixture set, and Azure Neural TTS must pass the human listening panel in French Canadian and Darija. Until then, it is a benchmark reference, not Provider A.
 
 ### Mandatory challengers
 
-- **STT:** Google Chirp 3 for explicit ar-MA; Deepgram Nova-3 only if generic French passes Canadian French fixtures.
-- **TTS:** ElevenLabs Flash/Turbo for perceived quality/latency; Google Chirp 3 HD for fr-CA and platform diversity.
+- **STT:** Google Chirp 3 for explicit fr-CA and ar-MA if Deepgram fails the language/accent gate.
+- **TTS:** ElevenLabs Flash/Turbo as the quality/latency challenger if its human-perceived gain justifies the additional budget; Google Chirp 3 HD remains the platform-diversity challenger.
 
 This does not authorize Provider A. Decide first:
 
-1. Québec only or Québec + Morocco;
-2. permitted data region and retention;
-3. experimental budget cap;
-4. single speech vendor versus best-of-breed;
-5. human listening panel for fr-CA and Arabic/Darija.
+1. Québec only or Québec + Morocco from the initial P0 runtime;
+2. permitted data region and retention mode;
+3. human listening panel for fr-CA and Darija using real candidate samples.
+
+The cost architecture and best-of-breed preference are now provisionally answered by this comparison. They do not override the three remaining gates above.
 
 ## M3 decision record to complete after approval
 
@@ -166,4 +187,4 @@ This does not authorize Provider A. Decide first:
 
 ## Gate
 
-**No provider has been selected or contacted. M3 remains NOT AUTHORIZED until the user explicitly chooses Provider A for STT and TTS.**
+**No provider has been selected or contacted. The human fr-CA/Darija listening panel remains an external gate. M3 remains NOT AUTHORIZED until the market scope, permitted data region/retention and listening panel are resolved, followed by the user's explicit Provider A choice.**
