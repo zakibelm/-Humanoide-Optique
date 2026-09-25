@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   P0_BLOCK_RESPONSE,
+  evaluateP0Output,
   evaluateP0Scope,
   runAfterP0ScopeGuard
 } from '../src/guards/p0-scope-guard.ts';
@@ -92,4 +93,17 @@ test('ALLOW is the only decision that invokes the downstream boundary', async ()
   assert.deepEqual(result.scope, { decision: 'ALLOW', intent: 'GREETING' });
   assert.equal(result.value, 'Bonjour');
   assert.equal(downstreamCalls, 1);
+});
+
+test('minimal output gate blocks manifestly clinical text before diffusion', () => {
+  assert.deepEqual(evaluateP0Output('Vous avez probablement un glaucome.'), {
+    decision: 'BLOCK',
+    response: P0_BLOCK_RESPONSE
+  });
+});
+
+test('minimal output gate allows neutral technical conversation', () => {
+  assert.deepEqual(evaluateP0Output('Bonjour, le test audio fonctionne.'), {
+    decision: 'ALLOW'
+  });
 });
