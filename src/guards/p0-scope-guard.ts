@@ -18,6 +18,10 @@ export type P0ScopeResult =
       readonly response: typeof P0_BLOCK_RESPONSE;
     };
 
+export type P0OutputResult =
+  | { readonly decision: 'ALLOW' }
+  | { readonly decision: 'BLOCK'; readonly response: typeof P0_BLOCK_RESPONSE };
+
 const ALLOWLIST: readonly [P0AllowedIntent, RegExp][] = [
   ['GREETING', /^(bonjour|bonsoir|salut|allo|hello|hi)[!.? ]*$/u],
   [
@@ -82,6 +86,19 @@ export function evaluateP0Scope(input: string): P0ScopeResult {
   }
 
   return { decision: 'BLOCK', classification: 'UNKNOWN', response: P0_BLOCK_RESPONSE };
+}
+
+/** Minimal downstream safety net required by P0; not a full output policy engine. */
+export function evaluateP0Output(output: string): P0OutputResult {
+  const normalized = normalize(output);
+  if (
+    normalized.length === 0 ||
+    normalized.length > 2_000 ||
+    OUT_OF_SCOPE_PATTERNS.some(pattern => pattern.test(normalized))
+  ) {
+    return { decision: 'BLOCK', response: P0_BLOCK_RESPONSE };
+  }
+  return { decision: 'ALLOW' };
 }
 
 /**
