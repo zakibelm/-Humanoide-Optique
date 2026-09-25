@@ -5,6 +5,20 @@
 **Temporary decision:** true  
 **M3 authorization:** NOT GRANTED
 
+## Confirmed pre-M3 decisions
+
+Confirmed by the user on 2026-09-25:
+
+1. **Initial P0 market scope: Québec + Morocco.**
+   - Required evaluation locales therefore include fr-CA and Arabic/Darija from the first real-provider benchmark.
+   - The listening panel must include human reviewers able to judge both Québec French and Moroccan Darija.
+2. **Mandatory data policy: processing in Canada + zero content retention.**
+   - This is a hard eligibility requirement for Provider A, not a preference.
+   - A provider without documented/contractual Canadian processing and zero content retention is excluded, regardless of price or latency.
+   - Deepgram remains conditional until both requirements are confirmed for the intended plan and endpoints.
+
+Only the human listening panel and formal Provider A approval remain open. This does not authorize M3.
+
 ## Purpose
 
 This document compares viable STT and TTS candidates for P0. It does not connect, configure or select a provider. No SDK, credential or production endpoint has been introduced. Provider A may be chosen only by explicit user approval.
@@ -129,13 +143,12 @@ This recommendation is conditional: Deepgram's generic French must pass the fr-C
 - **STT:** Google Chirp 3 for explicit fr-CA and ar-MA if Deepgram fails the language/accent gate.
 - **TTS:** ElevenLabs Flash/Turbo as the quality/latency challenger if its human-perceived gain justifies the additional budget; Google Chirp 3 HD remains the platform-diversity challenger.
 
-This does not authorize Provider A. Decide first:
+This does not authorize Provider A. Two governance decisions are now locked:
 
-1. Québec only or Québec + Morocco from the initial P0 runtime;
-2. permitted data region and retention mode;
-3. human listening panel for fr-CA and Darija using real candidate samples.
+- initial scope: Québec + Morocco;
+- data policy: Canadian processing + zero content retention.
 
-The cost architecture and best-of-breed preference are now provisionally answered by this comparison. They do not override the three remaining gates above.
+The remaining external gate is the human listening panel for fr-CA and Darija using real candidate samples. After that panel, the user must still explicitly approve Provider A.
 
 ## M3 decision record to complete after approval
 
@@ -187,4 +200,4 @@ The cost architecture and best-of-breed preference are now provisionally answere
 
 ## Gate
 
-**No provider has been selected or contacted. The human fr-CA/Darija listening panel remains an external gate. M3 remains NOT AUTHORIZED until the market scope, permitted data region/retention and listening panel are resolved, followed by the user's explicit Provider A choice.**
+**No provider has been selected or contacted. Market scope and data policy are now decided. The human fr-CA/Darija listening panel remains an external gate. M3 remains NOT AUTHORIZED until that panel is completed and the user explicitly approves Provider A.**
