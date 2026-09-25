@@ -1,6 +1,6 @@
 # P0 — Provider Reference Decision
 
-**Status:** DECISION REQUIRED — no Provider A selected  
+**Status:** ARCHITECTURE REFERENCE RETAINED — Provider A not yet authorized  
 **Research date:** 2026-09-25  
 **Temporary decision:** true  
 **M3 authorization:** NOT GRANTED
@@ -15,9 +15,14 @@ Confirmed by the user on 2026-09-25:
 2. **Mandatory data policy: processing in Canada + zero content retention.**
    - This is a hard eligibility requirement for Provider A, not a preference.
    - A provider without documented/contractual Canadian processing and zero content retention is excluded, regardless of price or latency.
-   - Deepgram remains conditional until both requirements are confirmed for the intended plan and endpoints.
+   - Deepgram's standard/self-service offer is disqualified: the documented regional endpoints verified for that offer are Global/US, EU GA and Australia GA, with no self-service Canada processing region.
+   - Dedicated or on-premises Deepgram deployments remain theoretical enterprise alternatives available by quote. They have no public comparable price and are outside the self-service P0 cost scenario.
+3. **Architecture reference retained: Azure Speech Services for both STT and TTS.**
+   - Default regions: Canada Central or Canada East, subject to service/model availability at provisioning time.
+   - Decision hierarchy: **Governance & Compliance > Risk > Cost**.
+   - For a Canadian Azure Speech resource, persisted service data is stored and processed at rest in the selected Canadian geography. For the P0 real-time path, STT audio is processed in memory without storage at rest and TTS does not persist input/output content, yielding the required zero-content-retention posture.
 
-Only the human listening panel and formal Provider A approval remain open. This does not authorize M3.
+Only the unilateral Azure qualification panel and formal Provider A approval remain open. This does not authorize M3.
 
 ## Purpose
 
@@ -60,7 +65,7 @@ Prices are public indicators observed on 2026-09-25, generally USD before taxes,
 - **Strengths:** simple real-time API; low latency/cost position; explicit Arabic dialects.
 - **Limits:** no explicit fr-CA profile; Canadian French accuracy and Canadian data residency remain to prove.
 
-**Fit:** latency/cost challenger, conditional on passing fr-CA fixtures.
+**Decision history:** not selected for the standard/self-service P0 architecture because no documented Canadian processing endpoint satisfies the locked residency rule. Dedicated/on-premises enterprise deployment remains a future theoretical alternative, not a current candidate.
 
 ## TTS candidates
 
@@ -103,12 +108,14 @@ Prices are public indicators observed on 2026-09-25, generally USD before taxes,
 |---|---|---:|---:|---:|---:|---|---|
 | STT | Azure Speech | Yes | Explicit | Explicit | Multiple locales | Real-time audio not stored at rest | Regional price + Darija |
 | STT | Google Chirp 3 | Yes | Explicit | Yes | ar-MA explicit | Audio in-memory; temporary metadata | Region/model matrix |
-| STT | Deepgram Nova-3 | Yes | Generic French | Yes | ar-MA explicit | Opt-out zero content retention | fr-CA accuracy |
+| STT | Deepgram Nova-3 | Yes | Generic French | Yes | ar-MA explicit | Zero retention available, but no Canada self-service endpoint | **Not selected:** fails Canadian processing requirement |
 | TTS | Azure Neural TTS | Yes | Explicit voices | Explicit voices | Multiple locales | TTS data not persisted per docs | $16/1M chars; voice/latency panel |
 | TTS | Google Chirp 3 HD | Yes | Explicit voices | Yes | ar-XA MSA | Contract/region review | Darija suitability |
 | TTS | ElevenLabs | Yes | Documented | Documented | Documented | Zero retention enterprise-only | Governance + accent |
 
 ## Intensive-volume scenario — 8 hours/day
+
+**Historical cost analysis only:** the Deepgram combinations below are no longer eligible for the locked standard/self-service architecture because they fail the Canadian-processing requirement. They are preserved to document why the earlier cost recommendation changed rather than being deleted silently.
 
 Standardized planning assumptions:
 
@@ -127,28 +134,67 @@ Standardized planning assumptions:
 
 These are planning estimates, not invoices. Actual audio minutes and synthesized character volume must be measured during P0.
 
-## Recommendation — not a selection
+## Recommendation — architecture reference, not M3 authorization
 
-### Recommended cost-optimized reference pair
+### Default reference pair
 
-- **STT:** Deepgram Nova-3.
+- **STT:** Azure Speech STT in Canada Central or Canada East.
 - **TTS:** Azure Neural TTS.
 
-Rationale: the best-of-breed combination gives the lowest estimated intensive-volume cost among the compared pairs while preserving real streaming. Deepgram provides the lower-cost STT layer and explicit Arabic dialect coverage; Azure Neural TTS provides fr-CA and Arabic voices at a materially lower character cost than ElevenLabs.
+Rationale: Azure Speech STT + TTS is the only retained default architecture aligned with the locked hierarchy **Governance & Compliance > Risk > Cost**. It preserves Canadian regional deployment, the required zero-content-retention posture for the real-time P0 path, explicit fr-CA support and a unified operational boundary.
 
-This recommendation is conditional: Deepgram's generic French must pass the fr-CA fixture set, and Azure Neural TTS must pass the human listening panel in French Canadian and Darija. Until then, it is a benchmark reference, not Provider A.
+This architecture reference is still conditional: Azure STT and Azure Neural TTS must pass the human qualification panel in French Canadian, Darija and code-switching. Until then, it is not an authorized Provider A.
 
-### Mandatory challengers
+### Decision history — alternatives not selected as default
 
-- **STT:** Google Chirp 3 for explicit fr-CA and ar-MA if Deepgram fails the language/accent gate.
-- **TTS:** ElevenLabs Flash/Turbo as the quality/latency challenger if its human-perceived gain justifies the additional budget; Google Chirp 3 HD remains the platform-diversity challenger.
+- **Deepgram Nova-3:** objective cost and Arabic-dialect advantages retained in the record, but disqualified for standard/self-service P0 because no Canadian regional endpoint is documented. Dedicated/on-premises enterprise options are unpriced and out of scope.
+- **Google Chirp 3 / Cloud TTS:** retained as future Provider B history. It is not the default because the current decision favors Azure's unified Canadian governance boundary; Google's model/region matrix and equivalent retention configuration would need a separate validation.
+- **ElevenLabs:** retained only as a future quality/latency challenger. Enterprise-only zero retention and absence of confirmed Canadian processing prevent default selection under the locked policy.
 
 This does not authorize Provider A. Two governance decisions are now locked:
 
 - initial scope: Québec + Morocco;
 - data policy: Canadian processing + zero content retention.
 
-The remaining external gate is the human listening panel for fr-CA and Darija using real candidate samples. After that panel, the user must still explicitly approve Provider A.
+The remaining external gate is now a **unilateral qualification of the Azure stack**, not a comparative multi-provider selection panel. After that panel, the user must still explicitly approve Azure as Provider A.
+
+## M3 gate and acceptance criteria — Azure qualification panel
+
+The panel evaluates whether Azure Speech STT + Azure Neural TTS is acceptable for an in-store client interaction across:
+
+- Québec French (fr-CA);
+- Moroccan Darija;
+- fr-CA/Darija code-switching;
+- representative store noise and natural conversational pacing.
+
+### STT acceptance
+
+The test protocol must measure WER separately for fr-CA, Darija and code-switching. Before listening begins, the human owners must approve the numeric thresholds. Proposed P0 qualification thresholds:
+
+| Fixture class | Proposed maximum WER |
+|---|---:|
+| fr-CA clean speech | 15% |
+| Darija clean speech | 25% |
+| fr-CA/Darija code-switching | 25% |
+| Store-noise fixtures | 30% |
+
+Independent of aggregate WER, any clinically or commercially material semantic inversion, fabricated number or missed negation is a blocking failure.
+
+### TTS acceptance
+
+- Median human intelligibility score at least **4/5** for fr-CA and Darija.
+- No language rated below **3/5** by any qualified reviewer without documented retest.
+- Correct pronunciation of the locked brand, common optical vocabulary, numbers and locale-specific expressions.
+- Code-switched phrases remain understandable without unacceptable accent switching or skipped words.
+- No severe clipping, truncation or unnatural pause that changes meaning.
+
+### Gate outcome
+
+- **PASS:** all mandatory thresholds met and reviewers sign the evidence record.
+- **PARTIAL:** fr-CA passes but Darija/code-switching needs a bounded remediation and retest.
+- **FAIL:** a mandatory WER, intelligibility or critical-semantic criterion fails.
+
+No result may be inferred from vendor documentation or synthetic metrics alone.
 
 ## M3 decision record to complete after approval
 
@@ -200,4 +246,4 @@ The remaining external gate is the human listening panel for fr-CA and Darija us
 
 ## Gate
 
-**No provider has been selected or contacted. Market scope and data policy are now decided. The human fr-CA/Darija listening panel remains an external gate. M3 remains NOT AUTHORIZED until that panel is completed and the user explicitly approves Provider A.**
+**Azure Speech STT + TTS is the retained architecture reference, but no provider has been connected. The human Azure qualification panel for fr-CA, Darija and code-switching remains the sole external gate. M3 remains NOT AUTHORIZED until that panel is completed and the user explicitly approves Azure as Provider A.**
