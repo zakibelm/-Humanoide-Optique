@@ -1,0 +1,48 @@
+✔ secret verifier Bash syntax (175.1712ms)
+▶ secret verifier: mocked az/curl, no network and no secret disclosure under bash -x
+  ✔ success (1363.2509ms)
+  ✔ windows-crlf (1380.8506ms)
+  ✔ az-failure (880.1989ms)
+  ✔ empty (776.388ms)
+  ✔ newline (642.7378ms)
+  ✔ unauthorized (985.041ms)
+  ✔ forbidden (915.7644ms)
+  ✔ redirect (1016.8827ms)
+  ✔ throttled (1074.3023ms)
+  ✔ server-error (998.7398ms)
+  ✔ network (911.9076ms)
+  ✔ partial-200 (931.8543ms)
+  ✔ unexpected-output (910.8308ms)
+  ✔ invalid-region (348.4368ms)
+  ✔ canada-east (897.1193ms)
+✔ secret verifier: mocked az/curl, no network and no secret disclosure under bash -x (14086.8817ms)
+✔ ALLOW: every explicitly authorized P0 intent has a representative fixture (17.0552ms)
+✔ BLOCK S06: clinical correction question never reaches downstream model boundary (2.3061ms)
+✔ BLOCK S07: prescription disease question uses the standard prototype response (0.8559ms)
+✔ UNKNOWN -> BLOCK S09: commercial grey case invents no price (2.1111ms)
+✔ UNKNOWN -> BLOCK: unmatched, empty and oversized inputs fail safe (1.4075ms)
+✔ ALLOW is the only decision that invokes the downstream boundary (1.1757ms)
+✔ minimal output gate blocks manifestly clinical text before diffusion (2.2963ms)
+✔ minimal output gate allows neutral technical conversation (0.564ms)
+✔ two model doubles satisfy one streaming consumer without changing its core call (12.431ms)
+✔ two STT doubles consume progressive frames and emit partial then final (1.7256ms)
+✔ two TTS doubles consume streaming text and emit codec-described audio (4.6505ms)
+✔ cancellation propagates through each of the three contracts (4.7876ms)
+✔ reviewed fixture source contains exactly 15 FQ, 15 DJ, 10 CS and 10 NZ (9.2704ms)
+✔ WAV accepts mono PCM16 at both specified rates with exact digest (46.6906ms)
+✔ WAV rejects truncation, stereo, silence, invalid rate, duplicate data and bad alignment (2.1625ms)
+✔ WAV supports padded ancillary chunks and rejects truncated chunk lengths (1.2466ms)
+✔ WER normalization handles French apostrophes, Arabic digits and code switching without translation (4.584ms)
+✔ WER counts substitutions, insertions, deletions, empty recognition and can exceed 100% (2.2189ms)
+✔ missing recordings remain incomplete with no scores or approvals (31.2804ms)
+✔ recording validation detects duplicate audio, missing consent and wrong-case filenames (652.9998ms)
+✔ scoring requires matching audio and raw evidence, uses micro WER, never issues a human verdict (863.2083ms)
+✔ CLI prepares blank artifacts, refuses overwrites and returns 2 for incomplete inputs (2452.0113ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14864.8382

@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-09-27T00:25:17.873Z",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "upstreamCommit": "baf42b3f5f715202c8cd5747b4275f5212933225",
+  "results": [
+    {
+      "name": "tests",
+      "command": "node --test tests/p0-scope-guard.test.ts tests/provider-contracts.test.ts tests/qualification.test.ts",
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "name": "typecheck",
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "name": "empty-recordings",
+      "command": "node scripts/qualification.ts validate qualification-input/panel/human-recordings",
+      "exitCode": 2,
+      "error": null
+    }
+  ]
+}

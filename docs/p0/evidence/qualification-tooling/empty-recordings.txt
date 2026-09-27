@@ -1,0 +1,563 @@
+{
+  "schemaVersion": 1,
+  "status": "INCOMPLETE",
+  "expectedCount": 50,
+  "validCount": 0,
+  "issues": [],
+  "unexpectedFiles": [],
+  "rows": [
+    {
+      "fixtureId": "FQ01",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ01.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ02",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ02.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ03",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ03.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ04",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ04.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ05",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ05.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ06",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ06.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ07",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ07.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ08",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ08.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ09",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ09.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ10",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ10.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ11",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ11.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ12",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ12.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ13",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ13.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ14",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ14.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "FQ15",
+      "category": "fr-ca",
+      "file": "fr-ca/FQ15.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ01",
+      "category": "darija",
+      "file": "darija/DJ01.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ02",
+      "category": "darija",
+      "file": "darija/DJ02.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ03",
+      "category": "darija",
+      "file": "darija/DJ03.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ04",
+      "category": "darija",
+      "file": "darija/DJ04.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ05",
+      "category": "darija",
+      "file": "darija/DJ05.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ06",
+      "category": "darija",
+      "file": "darija/DJ06.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ07",
+      "category": "darija",
+      "file": "darija/DJ07.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ08",
+      "category": "darija",
+      "file": "darija/DJ08.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ09",
+      "category": "darija",
+      "file": "darija/DJ09.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ10",
+      "category": "darija",
+      "file": "darija/DJ10.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ11",
+      "category": "darija",
+      "file": "darija/DJ11.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ12",
+      "category": "darija",
+      "file": "darija/DJ12.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ13",
+      "category": "darija",
+      "file": "darija/DJ13.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ14",
+      "category": "darija",
+      "file": "darija/DJ14.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "DJ15",
+      "category": "darija",
+      "file": "darija/DJ15.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS01",
+      "category": "code-switch",
+      "file": "code-switch/CS01.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS02",
+      "category": "code-switch",
+      "file": "code-switch/CS02.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS03",
+      "category": "code-switch",
+      "file": "code-switch/CS03.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS04",
+      "category": "code-switch",
+      "file": "code-switch/CS04.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS05",
+      "category": "code-switch",
+      "file": "code-switch/CS05.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS06",
+      "category": "code-switch",
+      "file": "code-switch/CS06.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS07",
+      "category": "code-switch",
+      "file": "code-switch/CS07.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS08",
+      "category": "code-switch",
+      "file": "code-switch/CS08.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS09",
+      "category": "code-switch",
+      "file": "code-switch/CS09.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "CS10",
+      "category": "code-switch",
+      "file": "code-switch/CS10.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ01",
+      "category": "noise",
+      "file": "noise/NZ01.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ02",
+      "category": "noise",
+      "file": "noise/NZ02.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ03",
+      "category": "noise",
+      "file": "noise/NZ03.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ04",
+      "category": "noise",
+      "file": "noise/NZ04.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ05",
+      "category": "noise",
+      "file": "noise/NZ05.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ06",
+      "category": "noise",
+      "file": "noise/NZ06.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ07",
+      "category": "noise",
+      "file": "noise/NZ07.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ08",
+      "category": "noise",
+      "file": "noise/NZ08.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ09",
+      "category": "noise",
+      "file": "noise/NZ09.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    },
+    {
+      "fixtureId": "NZ10",
+      "category": "noise",
+      "file": "noise/NZ10.wav",
+      "audio": null,
+      "issues": [
+        "CONSENT_OR_RECORDING_NOTES_REQUIRED",
+        "WAV_MISSING_OR_WRONG_CASE"
+      ],
+      "status": "INVALID"
+    }
+  ],
+  "humanVerdict": "NOT_RECORDED",
+  "providerApproved": false,
+  "m3Authorized": false
+}

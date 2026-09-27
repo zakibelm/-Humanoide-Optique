@@ -1,0 +1,18 @@
+{
+  "date": "2026-09-27T01:10:28.626Z",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "realAzureCall": false,
+  "results": [
+    {
+      "name": "tests",
+      "command": "node --test tests/azure-secret-script.test.ts tests/p0-scope-guard.test.ts tests/provider-contracts.test.ts tests/qualification.test.ts",
+      "exitCode": 0
+    },
+    {
+      "name": "typecheck",
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "exitCode": 0
+    }
+  ]
+}
