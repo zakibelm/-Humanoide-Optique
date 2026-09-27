@@ -5,6 +5,10 @@ Il ne connecte aucun fournisseur et ne donne aucun verdict de qualification.
 
 ## 1. Préparer la sandbox
 
+Mise à jour : Speech est désormais provisionné et le coffre Key Vault a été rapporté créé.
+Voir [l'état et la vérification d'accès](azure-secret-access.md). Les instructions de
+création ci-dessous sont conservées pour reproduction ; ne pas créer de doublon.
+
 Ouvrir https://portal.azure.com/, rechercher **Speech**, puis créer une ressource
 de test. Région demandée : **Canada Central** (`canadacentral`). Nom proposé :
 `humanoide-optique-speech-sandbox`. Utiliser F0 s'il est disponible ; examiner le tarif

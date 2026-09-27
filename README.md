@@ -25,7 +25,8 @@ les 50 phrases, contrôler les WAV et importer les transcriptions réelles.
 ## État et limites
 
 - M1/M2 : contrats et garde de périmètre existants, tests locaux disponibles.
-- Qualification Azure : outils préparés ; sandbox, enregistrements et verdict humain requis.
+- Qualification Azure : Speech provisionné ; Key Vault rapporté créé ; accès au secret,
+  enregistrements et verdict humain encore à vérifier.
 - M3 : connexion des fournisseurs non ouverte ; aucun fournisseur n'est appelé par ces outils.
 - P0 : **NOT VERIFIED** ; aucune mesure TTFA réelle.
 - P-1 terrain : validation humaine indépendante, toujours ouverte.
@@ -42,3 +43,7 @@ ni le traitement au Canada, ni le fonctionnement d'un microphone ou du playback.
 
 Ne pas commiter les secrets, les enregistrements ou les sorties fournisseur.
 Les dossiers `qualification-input/` et `qualification-output/` sont ignorés par Git.
+
+Le [guide d'accès au secret](docs/p0/azure-secret-access.md) décrit le test STS isolé :
+`bash scripts/verify-azure-speech-secret.sh`. Il nécessite Azure CLI connecté et ne produit
+aucun audio. Les contrôles WAV/WER ci-dessus restent entièrement hors ligne.
