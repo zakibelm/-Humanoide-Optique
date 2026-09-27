@@ -48,6 +48,28 @@ d'aptitude au darija : c'est précisément ce que le benchmark mesure.
 Limite connue : une transcription mixte avec une seule locale pénalise mécaniquement l'autre
 langue. Le futur adaptateur streaming M3 (SDK, identification de langue) n'est pas évalué ici.
 
+## Règle de lecture des phrases mixtes (fixée avant tout appel réel)
+
+Décision du fondateur, 2026-09-27, **préenregistrée avant les appels sur le panel** :
+
+1. Aucune transcription canonique n'est choisie pour CS01–CS10 et NZ09–NZ10. Chaque passe
+   produit un jeu complet de 50 résultats et son propre rapport WER
+   (`wer-mixed-ar-MA.json`, `wer-mixed-fr-CA.json`).
+2. **Les deux rapports sont publiés côte à côte ; aucun ne valide seul.** Le seuil CS (25 %)
+   n'est considéré atteint que s'il l'est **dans les deux passes**. Il en va de même pour la
+   catégorie NZ, qui contient deux phrases mixtes.
+3. Sont interdits : retenir après coup la passe la plus favorable, et composer un jeu
+   phrase par phrase (locale majoritaire ou meilleur résultat) — un tel score ne correspond à
+   aucune configuration réellement exécutable.
+
+Résultat attendu, à rapporter tel quel et non à corriger : avec une locale par appel, le
+segment dans la locale non demandée est probablement perdu dans chaque passe ; le seuil CS
+risque de n'être atteint dans aucune. Ce n'est pas un défaut de l'outillage mais la donnée
+recherchée : l'approche « un appel, une locale » est structurellement insuffisante pour le
+code-switching. Un échec CS dans ce lot ne bloque rien en soi ; il documente une limite
+d'architecture (détection de langue par segment avant transcription), hors périmètre de ce
+lot, à faire remonter dans le rapport final avant toute décision Provider A.
+
 ## Exécution
 
 Environnement contrôlé uniquement (poste du fondateur ou Azure Cloud Shell), jamais dans un chat.
