@@ -1,0 +1,30 @@
+✔ ALLOW: every explicitly authorized P0 intent has a representative fixture (3.5273ms)
+✔ BLOCK S06: clinical correction question never reaches downstream model boundary (0.5591ms)
+✔ BLOCK S07: prescription disease question uses the standard prototype response (0.3531ms)
+✔ UNKNOWN -> BLOCK S09: commercial grey case invents no price (0.8179ms)
+✔ UNKNOWN -> BLOCK: unmatched, empty and oversized inputs fail safe (0.3564ms)
+✔ ALLOW is the only decision that invokes the downstream boundary (0.235ms)
+✔ minimal output gate blocks manifestly clinical text before diffusion (0.2223ms)
+✔ minimal output gate allows neutral technical conversation (0.1497ms)
+✔ two model doubles satisfy one streaming consumer without changing its core call (2.2748ms)
+✔ two STT doubles consume progressive frames and emit partial then final (0.5163ms)
+✔ two TTS doubles consume streaming text and emit codec-described audio (0.5767ms)
+✔ cancellation propagates through each of the three contracts (1.6483ms)
+✔ reviewed fixture source contains exactly 15 FQ, 15 DJ, 10 CS and 10 NZ (3.5124ms)
+✔ WAV accepts mono PCM16 at both specified rates with exact digest (8.8512ms)
+✔ WAV rejects truncation, stereo, silence, invalid rate, duplicate data and bad alignment (0.778ms)
+✔ WAV supports padded ancillary chunks and rejects truncated chunk lengths (0.3923ms)
+✔ WER normalization handles French apostrophes, Arabic digits and code switching without translation (0.941ms)
+✔ WER counts substitutions, insertions, deletions, empty recognition and can exceed 100% (0.8668ms)
+✔ missing recordings remain incomplete with no scores or approvals (12.2054ms)
+✔ recording validation detects duplicate audio, missing consent and wrong-case filenames (242.6247ms)
+✔ scoring requires matching audio and raw evidence, uses micro WER, never issues a human verdict (338.1305ms)
+✔ CLI prepares blank artifacts, refuses overwrites and returns 2 for incomplete inputs (900.0583ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1788.9386

@@ -1,0 +1,939 @@
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..27bea4e
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,10 @@
++node_modules/
++.env
++.env.*
++!.env.example
++qualification-input/
++qualification-output/
++*.wav
++*.mp3
++*.pcm
++coverage/
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..0ba0952
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,44 @@
++# Humanoïde Optique — socle P0
++
++Assistant vocal multilingue pour l'accueil en magasin d'optique. Le dépôt contient
++actuellement les contrats STT/LLM/TTS, le P0ScopeGuard et les outils hors ligne de
++préparation de la qualification Azure. **Le pipeline vocal réel n'est pas encore livré.**
++
++## Démarrage
++
++Node.js **24 ou supérieur**. Les tests et les outils de qualification ne nécessitent
++aucune clé ni dépendance d'exécution :
++
++```sh
++node --test tests/*.test.ts
++node scripts/qualification.ts prepare qualification-input/panel
++node scripts/qualification.ts validate qualification-input/panel/human-recordings
++```
++
++La dernière commande retourne le code **2** tant que le dossier est incomplet.
++Après installation des dépendances de développement (`npm ci`), `npm run typecheck`
++vérifie aussi les types des sources, scripts et tests.
++
++Consulter le [guide de qualification](docs/p0/qualification-tooling.md) pour enregistrer
++les 50 phrases, contrôler les WAV et importer les transcriptions réelles.
++
++## État et limites
++
++- M1/M2 : contrats et garde de périmètre existants, tests locaux disponibles.
++- Qualification Azure : outils préparés ; sandbox, enregistrements et verdict humain requis.
++- M3 : connexion des fournisseurs non ouverte ; aucun fournisseur n'est appelé par ces outils.
++- P0 : **NOT VERIFIED** ; aucune mesure TTFA réelle.
++- P-1 terrain : validation humaine indépendante, toujours ouverte.
++
++Les résultats de tests synthétiques ne prouvent ni la qualité des voix, ni la qualité STT,
++ni le traitement au Canada, ni le fonctionnement d'un microphone ou du playback.
++
++## Références
++
++- [Handoff v1.5](docs/handoff/HANDOFF_v1.5_LOCKED.md)
++- [Contrat d'exécution P0](docs/handoff/MASTER_PROMPT_v1.1_LOCKED.md)
++- [Décision fournisseur](docs/p0/provider-reference-decision.md)
++- [50 fixtures et grille humaine](docs/p0/azure-qualification-materials.md)
++
++Ne pas commiter les secrets, les enregistrements ou les sorties fournisseur.
++Les dossiers `qualification-input/` et `qualification-output/` sont ignorés par Git.
+diff --git a/docs/p0/qualification-tooling-report.md b/docs/p0/qualification-tooling-report.md
+new file mode 100644
+index 0000000..ae6b3cd
+--- /dev/null
++++ b/docs/p0/qualification-tooling-report.md
+@@ -0,0 +1,90 @@
++# Lot pré-M3 — outils de qualification
++
++Date : 27 septembre 2026 UTC. Base distante inspectée :
++`baf42b3f5f715202c8cd5747b4275f5212933225`.
++
++**État du lot technique : PASS aux contrôles locaux.**
++**Qualification Azure : NON EXÉCUTÉE. P0 : NOT VERIFIED.**
++
++## Inspection et plan exécuté
++
++Le dépôt contient 16 fichiers à la base inspectée : documents, contrats TypeScript,
++Scope Guard, deux suites de tests et dépendances de développement. Aucun adaptateur
++réel, serveur, capture microphone, playback ou benchmark TTFA n'est présent.
++Les rapports M1/M2 existent ; le rapport d'audit M0 mentionné par le handoff fourni
++n'est pas présent dans l'arbre de cette branche. M0 n'a donc pas été revalidé ici.
++
++Les 12 tests de contrats et de garde passent avant modification. Le dépôt déclare
++TypeScript mais ne possède pas de `tsconfig.json` ni de commande de vérification statique.
++Le lot ajoute cette vérification, puis prépare le contrôle B-008 et le calcul B-011
++sans attendre les fichiers humains et sans ouvrir M3.
++
++L'utilisateur a confirmé dans cette séance que la sandbox et les enregistrements ne sont
++pas encore disponibles. Les anciennes consignes de redémarrage à M0 dans le Master
++Prompt ont été traitées comme historiques, et non comme une demande de refaire M1/M2.
++
++## Changements
++
++- Extraction des 50 références depuis le document de qualification existant.
++- Commande `prepare` : dossiers WAV, notes/consentements vides, grille humaine et schéma de transcriptions.
++- Commande `validate` : intégrité RIFF/PCM16, fréquence, mono, durée, silence numérique,
++  duplications, noms, consentement déclaré, notes et empreintes SHA-256.
++- Commande `score` : cohérence audio/réponse brute/transcription, normalisation versionnée,
++  WER par fixture et micro-agrégation par catégorie.
++- Refus de remplacer un rapport existant, limites de taille et refus des traversées de chemins/liens symboliques.
++- README, guide d'utilisation, exclusions Git des données privées et vérification TypeScript.
++
++Les contrats, le garde existant, les seuils de qualification et les documents verrouillés
++ne sont pas modifiés. Les outils n'émettent pas de verdict humain ni d'autorisation M3.
++
++## Tests et preuves
++
++Environnement : Windows, Node v24.19.0, TypeScript 7.0.2. Les dépendances de vérification
++ont été installées localement avec pnpm, sans scripts d'installation ; `@types/node`
++résolu localement : 26.6.3 (plage existante `^26.6.2`). Le lockfile npm existant est conservé.
++
++| Contrôle | Résultat | Code |
++|---|---|---:|
++| Suites contrats, garde et qualification | 22 tests réussis, 0 échec | 0 |
++| Vérification statique sources/scripts/tests | Aucune erreur | 0 |
++| Dossier de qualification réel, encore vide | INCOMPLETE, 0/50 valides | 2 attendu |
++
++Preuves brutes :
++
++- [Commandes et codes de sortie](evidence/qualification-tooling/commands.json)
++- [Tests](evidence/qualification-tooling/tests.txt)
++- [Typecheck](evidence/qualification-tooling/typecheck.txt) — sortie vide, code 0 dans le manifeste.
++- [Contrôle du dossier vide](evidence/qualification-tooling/empty-recordings.txt)
++- [Diff du code et de la documentation](evidence/qualification-tooling/changes.patch)
++
++Les tests couvrent les fichiers tronqués/stéréo/silencieux, les chunks RIFF rembourrés,
++les duplications, les consentements absents, les noms incorrects, les WER avec insertions,
++les reconnaissances vides, la micro-agrégation, les empreintes divergentes et la protection
++contre l'écrasement. Le PCM et les réponses JSON synthétiques sont exclusivement des
++données de tests temporaires ; aucun de ces scores n'est une mesure Azure.
++
++## Livraison et limites
++
++Les fichiers ont été récupérés au commit fixe via le connecteur GitHub : l'authentification
++Git locale disponible ne permettait pas de cloner le dépôt privé. Un snapshot Git local
++indépendant sert seulement au diff. La publication distante doit être un commit enfant
++du véritable commit distant, via le connecteur, sur une branche dédiée ; l'historique
++local indépendant ne doit jamais être poussé sur `main`.
++
++La conformité technique d'un WAV ne prouve pas la fidélité du texte lu, le SNR, le consentement
++réel ou la naturalité. L'importeur de réponses REST audio court est borné au format documenté
++par Microsoft ; il ne démontre pas le streaming. La provenance fournie manuellement
++n'est pas une attestation d'appel réseau. L'outil WER conserve toutes les reconnaissances
++vides mais bloque un lot incomplet ou une requête en erreur ; il ne masque pas l'erreur
++en calculant une moyenne sur le sous-ensemble réussi.
++
++Aucune mesure TTFA, aucun score humain, aucun coût fournisseur, aucune preuve de résidence
++ou de rétention de données n'ont été produits. La qualité multilingue du garde existant
++reste à éprouver ; ce lot ne constitue pas un audit exhaustif de sa sécurité.
++
++## Étape suivante
++
++Terminer la sandbox canadienne, enregistrer les 50 WAV et documenter leurs conditions.
++Puis exécuter les vrais appels de qualification STT/TTS, vérifier les preuves et faire
++réaliser l'écoute et le verdict humain. M3 restera fermé jusqu'au verdict et à l'ouverture
++explicite prévus dans le handoff. Aucun gate terrain P-1 n'est déclaré réussi.
+diff --git a/docs/p0/qualification-tooling.md b/docs/p0/qualification-tooling.md
+new file mode 100644
+index 0000000..c53d92d
+--- /dev/null
++++ b/docs/p0/qualification-tooling.md
+@@ -0,0 +1,168 @@
++# Qualification Azure — préparation et contrôle hors ligne
++
++Lot pré-M3, correspondant à la préparation de B-008 et B-011 du plan opérationnel.
++Il ne connecte aucun fournisseur et ne donne aucun verdict de qualification.
++
++## 1. Préparer la sandbox
++
++Ouvrir https://portal.azure.com/, rechercher **Speech**, puis créer une ressource
++de test. Région demandée : **Canada Central** (`canadacentral`). Nom proposé :
++`humanoide-optique-speech-sandbox`. Utiliser F0 s'il est disponible ; examiner le tarif
++affiché avant la création. Ne pas basculer silencieusement vers une région non canadienne.
++
++Référence régionale : https://learn.microsoft.com/en-us/azure/ai-services/speech-service/regions
++(consultée le 27 septembre 2026 UTC). La présence d'une région dans cette liste
++ne constitue pas une preuve de rétention nulle ou d'aptitude au darija.
++
++Conserver la clé dans le mécanisme de secrets choisi. Fournir uniquement les métadonnées
++non secrètes pour le suivi : nom, région, niveau de service et état du provisionnement.
++La génération Azure STT/TTS et la sélection exacte des voix restent à réaliser.
++
++## 2. Préparer les fichiers
++
++Depuis la racine du dépôt :
++
++```sh
++node scripts/qualification.ts prepare qualification-input/panel
++```
++
++Cette commande crée un **nouveau** dossier et refuse un dossier existant :
++
++```text
++qualification-input/panel/
++  fixtures.json
++  human-listening.csv
++  transcripts.template.json
++  human-recordings/
++    recording-notes.json
++    fr-ca/
++    darija/
++    code-switch/
++    noise/
++```
++
++Les 50 textes proviennent directement du Markdown de qualification verrouillé,
++sans copie indépendante des références. Les notes, consentements et scores ne sont
++jamais préremplis comme réussis. `transcripts.template.json` contient `null` pour les
++résultats absents : un texte vide sera réservé à une reconnaissance réellement sans résultat.
++
++## 3. Enregistrer et contrôler
++
++Lire une phrase par fichier : FQ01–FQ15, DJ01–DJ15, CS01–CS10, NZ01–NZ10.
++Placer chaque fichier dans sa catégorie avec la casse exacte, par exemple
++`human-recordings/fr-ca/FQ01.wav`. Utiliser **WAV PCM signé 16 bits, mono, 16 kHz ou
++44,1 kHz**, avec une fréquence uniforme par session. Le contrôle accepte 0,1 à 120 secondes
++et au maximum 12 Mio par fichier. Une conversion éventuelle reste une copie dérivée ;
++conserver les originaux ailleurs et documenter la conversion.
++
++Dans `recording-notes.json`, remplir chaque ligne :
++
++- `consent` : `true` uniquement après consentement réel ;
++- `speakerId` : identifiant pseudonyme, sans nom complet ;
++- `sessionId` : identifiant de la séance ;
++- `microphone`, `distanceCm` et `conditions` : conditions constatées ;
++- pour NZ, documenter aussi le bruit, son niveau/recouvrement et sa méthode de production.
++
++Les conditions attendues NZ sont disponibles dans `fixtures.json`. Ne pas remplacer
++les conditions constatées par les conditions attendues sans vérification humaine.
++
++```sh
++node scripts/qualification.ts validate qualification-input/panel/human-recordings qualification-output/wav-report.json
++```
++
++Créer d'abord le dossier `qualification-output` s'il n'existe pas. Aucun rapport
++existant n'est écrasé. La commande contrôle les en-têtes RIFF, les limites de chunks,
++le format, la durée, le silence numérique, les duplications exactes, les noms, le consentement
++déclaré et les notes. Elle calcule SHA-256, RMS, pic et nombre d'échantillons saturés.
++
++**READY_FOR_HUMAN_REVIEW** signifie seulement conformité technique. L'outil ne vérifie
++pas que la personne a réellement consenti, que la phrase a été lue correctement,
++qu'elle n'est pas tronquée acoustiquement, ou que le SNR prescrit est atteint. Une écoute
++humaine reste nécessaire, y compris en présence de saturation ou de niveau faible.
++
++## 4. Calculer le WER après les vrais appels Azure
++
++L'outil n'appelle pas Azure. Après exécution réelle, importer dans un dossier privé :
++
++```text
++qualification-output/stt/
++  transcripts.json
++  FQ01.json
++  ...
++  NZ10.json
++```
++
++Chaque entrée de `transcripts.json` comprend :
++
++```json
++{
++  "fixtureId": "FQ01",
++  "text": "texte réellement reconnu",
++  "audioSha256": "empreinte du WAV réellement envoyé",
++  "provider": "azure",
++  "region": "canadacentral",
++  "locale": "locale réellement utilisée",
++  "capturedAt": "horodatage ISO 8601 de l'appel",
++  "rawResponseFile": "FQ01.json",
++  "rawResponseSha256": "empreinte de la réponse brute"
++}
++```
++
++Ce bloc est un schéma d'exemple, **pas une preuve utilisable**. Les empreintes doivent
++être 64 caractères hexadécimaux calculés sur les fichiers réels.
++
++L'import actuel attend une réponse JSON Azure REST de reconnaissance audio court avec
++`RecognitionStatus` et `DisplayText` (format simple), ou le premier `NBest[].Display`
++(format détaillé). Conserver les octets de réponse originaux ;
++ne pas reconstruire une réponse à partir du texte reconnu. Un appel en erreur bloque
++le calcul ; une réponse `NoMatch` compte comme toutes les suppressions, sans être ignorée.
++Les réponses SDK streaming devront recevoir un importeur distinct avant leur utilisation.
++Cet importeur hors ligne n'est pas le futur adaptateur STT streaming M3.
++Il exige des WAV **16 kHz et au plus 60 secondes**, conformément aux limites de cette API.
++Les originaux 44,1 kHz restent acceptés par le contrôleur WAV, mais nécessitent des copies
++16 kHz documentées pour cet import ; l'empreinte doit correspondre au fichier effectivement
++transmis. Voir la [référence Microsoft](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-speech-to-text-short).
++
++```sh
++node scripts/qualification.ts score qualification-input/panel/human-recordings qualification-output/stt qualification-output/wer-report.json
++```
++
++Le calcul exige les 50 WAV techniquement valides, 50 transcriptions avec identifiants
++uniques, une région canadienne déclarée, les empreintes audio correspondantes et une
++réponse brute distincte par fixture dont le texte concorde. Il ne certifie pas l'origine
++Azure de fichiers fournis manuellement : les traces d'exécution réelles restent nécessaires.
++
++Le WER est `(substitutions + suppressions + insertions) / mots de référence`.
++L'agrégation par catégorie est **micro-pondérée**, jamais une moyenne des pourcentages.
++Les seuils sont 15 % FQ, 25 % DJ, 25 % CS et 30 % NZ. Un WER peut dépasser 100 %.
++
++Normalisation versionnée `p0-fixtures-v1` : NFKC, minuscules, chiffres arabes/persans vers
++chiffres ASCII, ponctuation remplacée par des espaces, espaces normalisés. Les accents,
++lettres arabes et mots alternant de langue sont conservés. Lexique numérique volontairement
++limité au corpus : `dix`, `عشرة` et `العشرة` deviennent `10` dans les deux textes.
++Les autres formes numériques ne sont pas assimilées automatiquement. Toute extension
++du lexique exige une version et un nouveau calcul de l'ensemble des résultats.
++
++Les champs `thresholdMet` sont de simples comparaisons numériques. Les négations perdues,
++nombres inventés et inversions sémantiques exigent une revue humaine, même si les seuils passent.
++Le rapport garde toujours `humanVerdict: NOT_RECORDED`, `providerApproved: false` et
++`m3Authorized: false` ; il ne remplace pas le verdict humain externe.
++
++## 5. Codes de sortie et vérification
++
++| Code | Signification |
++|---|---|
++| 0 | Préparation réussie, conformité technique ou seuils WER atteints ; aucun gate humain validé |
++| 1 | Commande invalide, preuve incohérente, lecture impossible ou destination existante |
++| 2 | WAV incomplets/non conformes ou au moins un seuil WER dépassé |
++
++```sh
++node --test tests/*.test.ts
++npm ci
++npm run typecheck
++```
++
++Les tests utilisent du PCM synthétique uniquement dans des dossiers temporaires dédiés.
++Ces fichiers sont supprimés après les tests et ne sont jamais proposés au panel humain.
++Ne pas publier les dossiers d'entrée/sortie privés. Un SHA-256 prouve la cohérence des
++octets, pas l'authenticité d'un locuteur, une résidence de données ou une validation humaine.
+diff --git a/package.json b/package.json
+index 7c16baf..2bc0510 100644
+--- a/package.json
++++ b/package.json
+@@ -7,7 +7,9 @@
+     "node": ">=24"
+   },
+   "scripts": {
+-    "test": "node --test tests/*.test.ts"
++    "test": "node --test tests/*.test.ts",
++    "typecheck": "tsc --noEmit",
++    "qualification": "node scripts/qualification.ts"
+   },
+   "devDependencies": {
+     "@types/node": "^26.6.2",
+diff --git a/scripts/qualification.ts b/scripts/qualification.ts
+new file mode 100644
+index 0000000..65b280c
+--- /dev/null
++++ b/scripts/qualification.ts
+@@ -0,0 +1,57 @@
++import { mkdir, readFile, writeFile } from 'node:fs/promises';
++import { dirname, resolve } from 'node:path';
++import { fileURLToPath } from 'node:url';
++import { parseFixtures } from '../src/qualification/fixtures.ts';
++import { scoreTranscripts, validateRecordings } from '../src/qualification/evidence.ts';
++
++const repository = fileURLToPath(new URL('../', import.meta.url));
++const usage = `Qualification Azure — outils hors ligne, Node >=24
++  node scripts/qualification.ts prepare <nouveau-dossier>
++  node scripts/qualification.ts validate <dossier-wav> [rapport.json]
++  node scripts/qualification.ts score <dossier-wav> <dossier-transcriptions> [rapport.json]
++Les rapports existants ne sont jamais remplacés. Aucun appel réseau.`;
++
++async function output(value: unknown, path?: string) {
++  const json = JSON.stringify(value, null, 2) + '\n';
++  if (path) await writeFile(resolve(path), json, { flag: 'wx', encoding: 'utf8' });
++  else process.stdout.write(json);
++}
++
++async function main() {
++  const [command, ...args] = process.argv.slice(2);
++  if (!command || command === '--help') { console.log(usage); return; }
++  const fixtures = parseFixtures(await readFile(resolve(repository, 'docs/p0/azure-qualification-materials.md'), 'utf8'));
++  if (command === 'prepare' && args.length === 1) {
++    const destination = resolve(args[0]);
++    await mkdir(dirname(destination), { recursive: true });
++    await mkdir(destination); // Fail before writing anything when the directory already exists.
++    for (const category of ['fr-ca', 'darija', 'code-switch', 'noise']) {
++      await mkdir(resolve(destination, 'human-recordings', category), { recursive: true });
++    }
++    await output(fixtures, resolve(destination, 'fixtures.json'));
++    await output(fixtures.map(f => ({ fixtureId: f.id, consent: false, speakerId: '', sessionId: '',
++      microphone: '', distanceCm: null, conditions: '' })), resolve(destination, 'human-recordings/recording-notes.json'));
++    await output(fixtures.map(f => ({ fixtureId: f.id, text: null, audioSha256: null, provider: 'azure',
++      region: null, locale: null, capturedAt: null, rawResponseFile: null, rawResponseSha256: null })),
++      resolve(destination, 'transcripts.template.json'));
++    const header = 'fixture_id,intelligibility,naturalness,darija_register,meaning_changed,clipping,reviewer_id,reviewed_at,notes';
++    await writeFile(resolve(destination, 'human-listening.csv'), '\uFEFF' + header + '\n' +
++      fixtures.map(f => `${f.id},,,,,,,,`).join('\n') + '\n', { flag: 'wx' });
++    console.log('PREPARED: 50 fixtures; 0 recordings; 0 scores; no human verdict.');
++  } else if (command === 'validate' && args.length >= 1 && args.length <= 2) {
++    const report = await validateRecordings(resolve(args[0]), fixtures);
++    await output(report, args[1]);
++    if (report.status !== 'READY_FOR_HUMAN_REVIEW') process.exitCode = 2;
++  } else if (command === 'score' && args.length >= 2 && args.length <= 3) {
++    const recordings = await validateRecordings(resolve(args[0]), fixtures);
++    const report = await scoreTranscripts(resolve(args[1]), fixtures, recordings);
++    await output(report, args[2]);
++    if (report.categories.some(c => !c.thresholdMet)) process.exitCode = 2;
++  } else throw new Error('USAGE');
++}
++
++main().catch(error => {
++  const code = error instanceof Error && /^[A-Z][A-Z0-9_]+$/u.test(error.message) ? error.message : 'INPUT_OR_OUTPUT_ERROR';
++  console.error(code); // No raw paths, transcription content or underlying errors.
++  process.exitCode = 1;
++});
+diff --git a/src/qualification/evidence.ts b/src/qualification/evidence.ts
+new file mode 100644
+index 0000000..1b37dc0
+--- /dev/null
++++ b/src/qualification/evidence.ts
+@@ -0,0 +1,157 @@
++import { lstat, readFile, readdir, realpath } from 'node:fs/promises';
++import { isAbsolute, relative, resolve, sep } from 'node:path';
++import type { Fixture } from './fixtures.ts';
++import { thresholds } from './fixtures.ts';
++import { inspectWav, MAX_WAV_BYTES, sha256 } from './wav.ts';
++import { NORMALIZATION_VERSION, wordErrorRate } from './wer.ts';
++
++type Notes = { fixtureId: string; consent: boolean; speakerId: string; sessionId: string;
++  microphone: string; distanceCm: number; conditions: string };
++const nonempty = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
++const digest = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{64}$/u.test(value);
++
++/** Reject traversal and symlinks, including linked parent directories. */
++export async function readEvidence(root: string, name: string, maxBytes: number): Promise<Buffer> {
++  if (!nonempty(name) || isAbsolute(name) || name.includes(':')) throw new Error('EVIDENCE_PATH');
++  const base = await realpath(root);
++  const target = resolve(base, name);
++  const rel = relative(base, target);
++  if (!rel || rel === '..' || rel.startsWith(`..${sep}`) || isAbsolute(rel)) throw new Error('EVIDENCE_PATH');
++  let cursor = base;
++  for (const part of rel.split(sep)) {
++    cursor = resolve(cursor, part);
++    if ((await lstat(cursor)).isSymbolicLink()) throw new Error('EVIDENCE_SYMLINK');
++  }
++  const stat = await lstat(target);
++  if (!stat.isFile() || stat.size > maxBytes) throw new Error('EVIDENCE_SIZE');
++  const bytes = await readFile(target);
++  if (bytes.length > maxBytes) throw new Error('EVIDENCE_SIZE');
++  return bytes;
++}
++
++async function enumerateWavs(root: string, folder = '', result: string[] = []): Promise<string[]> {
++  const entries = await readdir(resolve(root, folder), { withFileTypes: true });
++  for (const entry of entries) {
++    const name = folder ? `${folder}/${entry.name}` : entry.name;
++    if (entry.isSymbolicLink()) throw new Error('EVIDENCE_SYMLINK');
++    if (entry.isDirectory()) {
++      if (name.split('/').length > 3) throw new Error('EVIDENCE_DIRECTORY_DEPTH');
++      await enumerateWavs(root, name, result);
++    } else if (/\.wav$/iu.test(entry.name)) result.push(name);
++    if (result.length > 100) throw new Error('TOO_MANY_WAVS');
++  }
++  return result;
++}
++
++export async function validateRecordings(root: string, fixtures: Fixture[]) {
++  let notes: Notes[] = [];
++  const issues: string[] = [];
++  try {
++    const parsed: unknown = JSON.parse((await readEvidence(root, 'recording-notes.json', 1024 * 1024)).toString('utf8'));
++    if (!Array.isArray(parsed)) throw new Error('INVALID_NOTES');
++    notes = parsed;
++    if (notes.some(n => !n || !fixtures.some(f => f.id === n.fixtureId)) ||
++        new Set(notes.map(n => n?.fixtureId)).size !== notes.length) throw new Error('INVALID_NOTES');
++  } catch { issues.push('RECORDING_NOTES_MISSING_OR_INVALID'); }
++  let paths: string[] = [];
++  try { paths = await enumerateWavs(root); } catch { issues.push('RECORDING_DIRECTORY_MISSING_OR_INVALID'); }
++  const expected = fixtures.map(f => `${f.category}/${f.id}.wav`);
++  const unexpectedFiles = paths.filter(path => !expected.includes(path));
++  if (unexpectedFiles.length) issues.push('UNEXPECTED_WAV_FILES');
++  const rows = [];
++  const seenHashes = new Set<string>();
++  const sessionRates = new Map<string, number>();
++  for (const fixture of fixtures) {
++    const file = `${fixture.category}/${fixture.id}.wav`;
++    const rowIssues: string[] = [];
++    const note = notes.find(n => n?.fixtureId === fixture.id);
++    if (!note || note.consent !== true || !nonempty(note.speakerId) || !nonempty(note.sessionId) ||
++        !nonempty(note.microphone) || !Number.isFinite(note.distanceCm) || note.distanceCm <= 0 ||
++        !nonempty(note.conditions)) rowIssues.push('CONSENT_OR_RECORDING_NOTES_REQUIRED');
++    let audio: ReturnType<typeof inspectWav> | null = null;
++    try {
++      if (!paths.includes(file)) throw new Error('WAV_MISSING_OR_WRONG_CASE');
++      audio = inspectWav(await readEvidence(root, file, MAX_WAV_BYTES));
++      if (seenHashes.has(audio.sha256)) rowIssues.push('DUPLICATE_AUDIO');
++      seenHashes.add(audio.sha256);
++      if (note && nonempty(note.sessionId)) {
++        const rate = sessionRates.get(note.sessionId);
++        if (rate && rate !== audio.sampleRateHz) rowIssues.push('MIXED_SAMPLE_RATE_IN_SESSION');
++        sessionRates.set(note.sessionId, audio.sampleRateHz);
++      }
++    } catch (error) {
++      const code = error instanceof Error && /^(WAV_|EVIDENCE_)[A-Z0-9_]+$/u.test(error.message)
++        ? error.message : 'WAV_UNREADABLE';
++      rowIssues.push(code);
++    }
++    rows.push({ fixtureId: fixture.id, category: fixture.category, file, audio, issues: rowIssues,
++      status: rowIssues.length ? 'INVALID' : 'TECHNICALLY_VALID' });
++  }
++  const validCount = rows.filter(row => row.status === 'TECHNICALLY_VALID').length;
++  return { schemaVersion: 1, status: validCount === 50 && !issues.length ? 'READY_FOR_HUMAN_REVIEW' : 'INCOMPLETE',
++    expectedCount: 50, validCount, issues, unexpectedFiles, rows,
++    humanVerdict: 'NOT_RECORDED', providerApproved: false, m3Authorized: false };
++}
++
++export interface Transcript {
++  fixtureId: string;
++  text: string;
++  audioSha256: string;
++  provider: 'azure';
++  region: 'canadacentral' | 'canadaeast';
++  locale: string;
++  capturedAt: string;
++  rawResponseFile: string;
++  rawResponseSha256: string;
++}
++
++export async function scoreTranscripts(root: string, fixtures: Fixture[], recordings: Awaited<ReturnType<typeof validateRecordings>>) {
++  if (recordings.status !== 'READY_FOR_HUMAN_REVIEW') throw new Error('RECORDINGS_NOT_READY');
++  const data: unknown = JSON.parse((await readEvidence(root, 'transcripts.json', 1024 * 1024)).toString('utf8'));
++  if (!Array.isArray(data) || data.length !== fixtures.length) throw new Error('EXPECTED_50_TRANSCRIPTS');
++  const transcripts: Transcript[] = data;
++  if (transcripts.some(t => !t || !fixtures.some(f => f.id === t.fixtureId)) ||
++      new Set(transcripts.map(t => t.fixtureId)).size !== fixtures.length) throw new Error('TRANSCRIPT_IDS');
++  const rawPaths = new Set<string>();
++  const rows: Array<ReturnType<typeof wordErrorRate> & {
++    fixtureId: string; category: Fixture['category']; audioSha256: string; rawResponseSha256: string;
++  }> = [];
++  for (const fixture of fixtures) {
++    const entry = transcripts.find(t => t.fixtureId === fixture.id)!;
++    const recording = recordings.rows.find(r => r.fixtureId === fixture.id)!;
++    if (typeof entry.text !== 'string' || entry.text.length > 20000 || entry.provider !== 'azure' ||
++        !['canadacentral', 'canadaeast'].includes(entry.region) || !nonempty(entry.locale) ||
++        !nonempty(entry.capturedAt) || !Number.isFinite(Date.parse(entry.capturedAt)) ||
++        !digest(entry.audioSha256) || entry.audioSha256 !== recording.audio?.sha256 ||
++        !digest(entry.rawResponseSha256) || !nonempty(entry.rawResponseFile)) throw new Error('TRANSCRIPT_PROVENANCE');
++    const rawPath = resolve(root, entry.rawResponseFile);
++    if (rawPaths.has(rawPath)) throw new Error('DUPLICATE_RAW_RESPONSE');
++    rawPaths.add(rawPath);
++    const raw = await readEvidence(root, entry.rawResponseFile, 1024 * 1024);
++    if (sha256(raw) !== entry.rawResponseSha256) throw new Error('RAW_RESPONSE_HASH_MISMATCH');
++    if (recording.audio?.sampleRateHz !== 16000 || recording.audio.durationMs > 60000) {
++      throw new Error('SHORT_AUDIO_REST_REQUIRES_16KHZ_MAX_60S');
++    }
++    // Current import format is the unmodified Azure simple/detailed short-audio REST response.
++    // Failed requests must not be interpreted as valid empty recognitions.
++    const response = JSON.parse(raw.toString('utf8'));
++    if (!['Success', 'NoMatch'].includes(response?.RecognitionStatus)) throw new Error('STT_REQUEST_NOT_SUCCESSFUL');
++    const rawText = response.RecognitionStatus === 'NoMatch' ? '' :
++      (response.DisplayText ?? response.NBest?.[0]?.Display);
++    if (typeof rawText !== 'string' || rawText !== entry.text) throw new Error('TRANSCRIPT_RAW_MISMATCH');
++    rows.push({ fixtureId: fixture.id, category: fixture.category,
++      audioSha256: entry.audioSha256, rawResponseSha256: entry.rawResponseSha256,
++      ...wordErrorRate(fixture.reference, entry.text) });
++  }
++  const categories = Object.entries(thresholds).map(([category, threshold]) => {
++    const items = rows.filter(r => r.category === category);
++    const errors = items.reduce((n, r) => n + r.errors, 0);
++    const referenceWords = items.reduce((n, r) => n + r.referenceWords, 0);
++    const wer = errors / referenceWords;
++    return { category, count: items.length, errors, referenceWords, wer, threshold, thresholdMet: wer <= threshold };
++  });
++  return { schemaVersion: 1, normalization: NORMALIZATION_VERSION, status: 'COMPUTED_FROM_SUPPLIED_EVIDENCE',
++    fixturesSha256: sha256(JSON.stringify(fixtures)), rows, categories,
++    semanticReview: 'REQUIRED', ttsHumanReview: 'REQUIRED', humanVerdict: 'NOT_RECORDED',
++    providerApproved: false, m3Authorized: false };
++}
+diff --git a/src/qualification/fixtures.ts b/src/qualification/fixtures.ts
+new file mode 100644
+index 0000000..9aec6d8
+--- /dev/null
++++ b/src/qualification/fixtures.ts
+@@ -0,0 +1,35 @@
++export type Category = 'fr-ca' | 'darija' | 'code-switch' | 'noise';
++export interface Fixture {
++  id: string;
++  category: Category;
++  reference: string;
++  condition: string | null;
++}
++
++export const thresholds: Record<Category, number> = {
++  'fr-ca': 0.15, darija: 0.25, 'code-switch': 0.25, noise: 0.30
++};
++
++/** The reviewed Markdown is the single source of fixture text. */
++export function parseFixtures(markdown: string): Fixture[] {
++  const fixtures: Fixture[] = [];
++  const groups = { FQ: ['fr-ca', 15], DJ: ['darija', 15], CS: ['code-switch', 10], NZ: ['noise', 10] } as const;
++  for (const line of markdown.split(/\r?\n/u)) {
++    const cells = line.split('|').map(cell => cell.trim());
++    const match = /^(FQ|DJ|CS|NZ)(\d{2})$/u.exec(cells[1] ?? '');
++    if (!match) continue;
++    const prefix = match[1] as keyof typeof groups;
++    const [category, count] = groups[prefix];
++    const number = Number(match[2]);
++    const noise = prefix === 'NZ';
++    const reference = cells[noise ? 4 : 3];
++    if (number < 1 || number > count || !reference || cells.length !== (noise ? 6 : 5)) {
++      throw new Error('INVALID_FIXTURE_ROW');
++    }
++    if (fixtures.some(f => f.id === cells[1])) throw new Error('DUPLICATE_FIXTURE');
++    fixtures.push({ id: cells[1], category, reference,
++      condition: noise ? `${cells[2]} — ${cells[3]}` : null });
++  }
++  if (fixtures.length !== 50) throw new Error('EXPECTED_50_FIXTURES');
++  return fixtures;
++}
+diff --git a/src/qualification/wav.ts b/src/qualification/wav.ts
+new file mode 100644
+index 0000000..07acace
+--- /dev/null
++++ b/src/qualification/wav.ts
+@@ -0,0 +1,62 @@
++import { createHash } from 'node:crypto';
++
++export const MAX_WAV_BYTES = 12 * 1024 * 1024;
++export const sha256 = (bytes: Uint8Array | string): string => createHash('sha256').update(bytes).digest('hex');
++
++/** Strict PCM16 reader: checks boundaries, padding, format and non-empty audio. */
++export function inspectWav(bytes: Buffer) {
++  if (bytes.length < 44 || bytes.length > MAX_WAV_BYTES) throw new Error('WAV_SIZE');
++  if (bytes.toString('ascii', 0, 4) !== 'RIFF' || bytes.toString('ascii', 8, 12) !== 'WAVE') {
++    throw new Error('WAV_CONTAINER');
++  }
++  if (bytes.readUInt32LE(4) + 8 !== bytes.length) throw new Error('WAV_TRUNCATED_OR_TRAILING');
++  let format: Buffer | undefined;
++  let data: Buffer | undefined;
++  let offset = 12;
++  while (offset < bytes.length) {
++    if (offset + 8 > bytes.length) throw new Error('WAV_CHUNK_HEADER');
++    const id = bytes.toString('ascii', offset, offset + 4);
++    const size = bytes.readUInt32LE(offset + 4);
++    const start = offset + 8;
++    const end = start + size;
++    const next = end + (size % 2);
++    if (next > bytes.length) throw new Error('WAV_CHUNK_TRUNCATED');
++    if (id === 'fmt ') {
++      if (format) throw new Error('WAV_DUPLICATE_FORMAT');
++      format = bytes.subarray(start, end);
++    }
++    if (id === 'data') {
++      if (data) throw new Error('WAV_DUPLICATE_DATA');
++      data = bytes.subarray(start, end);
++    }
++    offset = next;
++  }
++  if (!format || format.length < 16 || !data || data.length === 0) throw new Error('WAV_MISSING_AUDIO');
++  const codec = format.readUInt16LE(0);
++  const channels = format.readUInt16LE(2);
++  const sampleRateHz = format.readUInt32LE(4);
++  const byteRate = format.readUInt32LE(8);
++  const blockAlign = format.readUInt16LE(12);
++  const bits = format.readUInt16LE(14);
++  if (codec !== 1 || channels !== 1 || bits !== 16 || ![16000, 44100].includes(sampleRateHz)) {
++    throw new Error('WAV_EXPECTED_PCM16_MONO_16000_OR_44100');
++  }
++  if (blockAlign !== 2 || byteRate !== sampleRateHz * 2 || data.length % 2) throw new Error('WAV_ALIGNMENT');
++  const durationMs = data.length / byteRate * 1000;
++  if (durationMs < 100 || durationMs > 120000) throw new Error('WAV_DURATION');
++  let peak = 0;
++  let squared = 0;
++  let clipped = 0;
++  for (let i = 0; i < data.length; i += 2) {
++    const sample = Math.abs(data.readInt16LE(i));
++    peak = Math.max(peak, sample);
++    squared += sample * sample;
++    if (sample >= 32767) clipped++;
++  }
++  if (peak === 0) throw new Error('WAV_DIGITAL_SILENCE');
++  return {
++    sha256: sha256(bytes), bytes: bytes.length, sampleRateHz, channels, bits, durationMs,
++    peak, rms: Math.sqrt(squared / (data.length / 2)), clippedSamples: clipped,
++    humanListeningRequired: true as const
++  };
++}
+diff --git a/src/qualification/wer.ts b/src/qualification/wer.ts
+new file mode 100644
+index 0000000..4234e61
+--- /dev/null
++++ b/src/qualification/wer.ts
+@@ -0,0 +1,41 @@
++export const NORMALIZATION_VERSION = 'p0-fixtures-v1';
++
++/** Deliberately narrow, published number lexicon for the locked FQ10/DJ10 corpus.
++ * No translation, accent stripping or Arabic letter folding is performed.
++ */
++export function normalizeForWer(text: string): string[] {
++  const normalized = text.normalize('NFKC').toLowerCase()
++    .replace(/[٠-٩]/gu, digit => String(digit.charCodeAt(0) - 0x660))
++    .replace(/[۰-۹]/gu, digit => String(digit.charCodeAt(0) - 0x6f0))
++    .replace(/\p{P}/gu, ' ').trim();
++  if (!normalized) return [];
++  return normalized.split(/\s+/u).map(word => ['dix', 'عشرة', 'العشرة'].includes(word) ? '10' : word);
++}
++
++export function wordErrorRate(reference: string, hypothesis: string) {
++  const ref = normalizeForWer(reference);
++  const hyp = normalizeForWer(hypothesis);
++  if (!ref.length || ref.length > 2000 || hyp.length > 2000) throw new Error('WER_TOKEN_LIMIT');
++  type Cell = { substitutions: number; deletions: number; insertions: number; errors: number };
++  let previous: Cell[] = Array.from({ length: hyp.length + 1 }, (_, n) =>
++    ({ substitutions: 0, deletions: 0, insertions: n, errors: n }));
++  for (let i = 1; i <= ref.length; i++) {
++    const current: Cell[] = [{ substitutions: 0, deletions: i, insertions: 0, errors: i }];
++    for (let j = 1; j <= hyp.length; j++) {
++      if (ref[i - 1] === hyp[j - 1]) { current.push(previous[j - 1]); continue; }
++      const sub = previous[j - 1];
++      const del = previous[j];
++      const ins = current[j - 1];
++      // Stable tie break: substitution, deletion, insertion.
++      const candidates = [
++        { ...sub, substitutions: sub.substitutions + 1, errors: sub.errors + 1 },
++        { ...del, deletions: del.deletions + 1, errors: del.errors + 1 },
++        { ...ins, insertions: ins.insertions + 1, errors: ins.errors + 1 }
++      ];
++      current.push(candidates.reduce((best, cell) => cell.errors < best.errors ? cell : best));
++    }
++    previous = current;
++  }
++  return { ...previous[hyp.length], referenceWords: ref.length, hypothesisWords: hyp.length,
++    wer: previous[hyp.length].errors / ref.length };
++}
+diff --git a/tests/qualification.test.ts b/tests/qualification.test.ts
+new file mode 100644
+index 0000000..0044f8e
+--- /dev/null
++++ b/tests/qualification.test.ts
+@@ -0,0 +1,180 @@
++import assert from 'node:assert/strict';
++import { test } from 'node:test';
++import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
++import { tmpdir } from 'node:os';
++import { join, resolve } from 'node:path';
++import { spawnSync } from 'node:child_process';
++import { parseFixtures } from '../src/qualification/fixtures.ts';
++import { inspectWav, sha256 } from '../src/qualification/wav.ts';
++import { normalizeForWer, wordErrorRate } from '../src/qualification/wer.ts';
++import { readEvidence, scoreTranscripts, validateRecordings } from '../src/qualification/evidence.ts';
++import type { Transcript } from '../src/qualification/evidence.ts';
++
++const markdown = await readFile(new URL('../docs/p0/azure-qualification-materials.md', import.meta.url), 'utf8');
++const fixtures = parseFixtures(markdown);
++
++// Synthetic PCM is ONLY a parser/test input. Never a human qualification artifact.
++function wav(seed = 1, rate = 16000, samples = 3200) {
++  const data = Buffer.alloc(44 + samples * 2);
++  data.write('RIFF', 0); data.writeUInt32LE(data.length - 8, 4); data.write('WAVEfmt ', 8);
++  data.writeUInt32LE(16, 16); data.writeUInt16LE(1, 20); data.writeUInt16LE(1, 22);
++  data.writeUInt32LE(rate, 24); data.writeUInt32LE(rate * 2, 28);
++  data.writeUInt16LE(2, 32); data.writeUInt16LE(16, 34);
++  data.write('data', 36); data.writeUInt32LE(samples * 2, 40);
++  for (let i = 44; i < data.length; i += 2) data.writeInt16LE(seed * 10, i);
++  return data;
++}
++
++async function corpus(root: string) {
++  const notes = [];
++  for (const [index, f] of fixtures.entries()) {
++    await mkdir(join(root, f.category), { recursive: true });
++    await writeFile(join(root, f.category, `${f.id}.wav`), wav(index + 1));
++    notes.push({ fixtureId: f.id, consent: true, speakerId: 'SYNTHETIC_TEST_ONLY', sessionId: 'test',
++      microphone: 'TEST_GENERATOR', distanceCm: 30, conditions: 'SYNTHETIC_UNIT_TEST_NOT_HUMAN' });
++  }
++  await writeFile(join(root, 'recording-notes.json'), JSON.stringify(notes));
++}
++
++test('reviewed fixture source contains exactly 15 FQ, 15 DJ, 10 CS and 10 NZ', () => {
++  assert.deepEqual(['fr-ca', 'darija', 'code-switch', 'noise'].map(c => fixtures.filter(f => f.category === c).length), [15, 15, 10, 10]);
++  assert.equal(fixtures.find(f => f.id === 'DJ01')?.reference, 'السلام عليكم، مرحبا بكم. كيفاش نقدر نعاونك اليوم؟');
++  assert.match(fixtures.find(f => f.id === 'NZ10')!.condition!, /30%/u);
++  assert.throws(() => parseFixtures(markdown.replace('| FQ01 |', '| FQ02 |')), /DUPLICATE/u);
++  assert.throws(() => parseFixtures(markdown.replace('| FQ01 |', '| FQ99 |')), /INVALID/u);
++});
++
++test('WAV accepts mono PCM16 at both specified rates with exact digest', () => {
++  for (const rate of [16000, 44100]) {
++    const bytes = wav(1, rate, rate);
++    const inspected = inspectWav(bytes);
++    assert.equal(inspected.sampleRateHz, rate);
++    assert.equal(inspected.durationMs, 1000);
++    assert.equal(inspected.sha256, sha256(bytes));
++    assert.equal(inspected.humanListeningRequired, true);
++  }
++});
++
++test('WAV rejects truncation, stereo, silence, invalid rate, duplicate data and bad alignment', () => {
++  assert.throws(() => inspectWav(wav().subarray(0, 100)), /TRUNCATED/u);
++  const stereo = wav(); stereo.writeUInt16LE(2, 22);
++  assert.throws(() => inspectWav(stereo), /MONO/u);
++  assert.throws(() => inspectWav(wav(0)), /SILENCE/u);
++  assert.throws(() => inspectWav(wav(1, 48000)), /44100/u);
++  const alignment = wav(); alignment.writeUInt32LE(17, 28);
++  assert.throws(() => inspectWav(alignment), /ALIGNMENT/u);
++  const duplicate = Buffer.concat([wav(), wav().subarray(36)]);
++  duplicate.writeUInt32LE(duplicate.length - 8, 4);
++  assert.throws(() => inspectWav(duplicate), /DUPLICATE/u);
++});
++
++test('WAV supports padded ancillary chunks and rejects truncated chunk lengths', () => {
++  const original = wav();
++  const junk = Buffer.from([74, 85, 78, 75, 1, 0, 0, 0, 32, 0]);
++  const padded = Buffer.concat([original.subarray(0, 12), junk, original.subarray(12)]);
++  padded.writeUInt32LE(padded.length - 8, 4);
++  assert.equal(inspectWav(padded).durationMs, 200);
++  padded.writeUInt32LE(0xffffffff, 16);
++  assert.throws(() => inspectWav(padded), /TRUNCATED/u);
++});
++
++test('WER normalization handles French apostrophes, Arabic digits and code switching without translation', () => {
++  assert.deepEqual(normalizeForWer('Dix، العشرة ١٠ ۱۰ 10!'), ['10', '10', '10', '10', '10']);
++  assert.deepEqual(normalizeForWer('J’aimerais un rendez-vous. بغيت'), ['j', 'aimerais', 'un', 'rendez', 'vous', 'بغيت']);
++  assert.notDeepEqual(normalizeForWer('médecin'), normalizeForWer('medecin'));
++  assert.notDeepEqual(normalizeForWer('أهلا'), normalizeForWer('اهلا'));
++});
++
++test('WER counts substitutions, insertions, deletions, empty recognition and can exceed 100%', () => {
++  assert.equal(wordErrorRate('bonjour ami', 'bonjour ici').substitutions, 1);
++  assert.equal(wordErrorRate('bonjour ami', 'bonjour').deletions, 1);
++  assert.equal(wordErrorRate('bonjour ami', 'bonjour mon ami').insertions, 1);
++  assert.equal(wordErrorRate('bonjour ami', '').wer, 1);
++  assert.equal(wordErrorRate('bonjour', 'bonjour a b c').wer, 3);
++  assert.throws(() => wordErrorRate('', 'bonjour'), /TOKEN_LIMIT/u);
++});
++
++test('missing recordings remain incomplete with no scores or approvals', async () => {
++  const root = await mkdtemp(join(tmpdir(), 'optique-empty-'));
++  try {
++    const report = await validateRecordings(root, fixtures);
++    assert.equal(report.status, 'INCOMPLETE'); assert.equal(report.validCount, 0);
++    assert.equal(report.rows.length, 50); assert.equal(report.humanVerdict, 'NOT_RECORDED');
++    assert.equal(report.m3Authorized, false);
++    await assert.rejects(scoreTranscripts(root, fixtures, report), /RECORDINGS_NOT_READY/u);
++  } finally { await rm(root, { recursive: true, force: true }); }
++});
++
++test('recording validation detects duplicate audio, missing consent and wrong-case filenames', async () => {
++  const root = await mkdtemp(join(tmpdir(), 'optique-validation-'));
++  try {
++    await corpus(root);
++    let report = await validateRecordings(root, fixtures);
++    assert.equal(report.validCount, 50); assert.equal(report.humanVerdict, 'NOT_RECORDED');
++    await writeFile(join(root, 'fr-ca/FQ02.wav'), wav(1));
++    const notes = JSON.parse(await readFile(join(root, 'recording-notes.json'), 'utf8'));
++    notes[0].consent = false;
++    await writeFile(join(root, 'recording-notes.json'), JSON.stringify(notes));
++    await rm(join(root, 'fr-ca/FQ03.wav'));
++    await writeFile(join(root, 'fr-ca/fq03.wav'), wav(3));
++    report = await validateRecordings(root, fixtures);
++    assert.equal(report.status, 'INCOMPLETE');
++    assert.ok(report.rows[0].issues.includes('CONSENT_OR_RECORDING_NOTES_REQUIRED'));
++    assert.ok(report.rows[1].issues.includes('DUPLICATE_AUDIO'));
++    assert.ok(report.rows[2].issues.includes('WAV_MISSING_OR_WRONG_CASE'));
++    assert.deepEqual(report.unexpectedFiles, ['fr-ca/fq03.wav']);
++    await assert.rejects(readEvidence(root, '../outside.json', 100), /EVIDENCE_PATH/u);
++  } finally { await rm(root, { recursive: true, force: true }); }
++});
++
++test('scoring requires matching audio and raw evidence, uses micro WER, never issues a human verdict', async () => {
++  const root = await mkdtemp(join(tmpdir(), 'optique-score-'));
++  try {
++    const audioRoot = join(root, 'audio'); const sttRoot = join(root, 'stt');
++    await mkdir(audioRoot); await mkdir(sttRoot); await corpus(audioRoot);
++    const recordings = await validateRecordings(audioRoot, fixtures);
++    const entries: Transcript[] = [];
++    for (const [i, f] of fixtures.entries()) {
++      const text = i === 0 ? '' : f.reference;
++      const raw = JSON.stringify(i === 1
++        ? { RecognitionStatus: 'Success', NBest: [{ Display: text }] }
++        : { RecognitionStatus: i === 0 ? 'NoMatch' : 'Success', DisplayText: text });
++      await writeFile(join(sttRoot, `${f.id}.json`), raw);
++      entries.push({ fixtureId: f.id, text, provider: 'azure', region: 'canadacentral', locale: 'test-only',
++        capturedAt: '2026-09-27T00:00:00Z', audioSha256: recordings.rows[i].audio!.sha256,
++        rawResponseFile: `${f.id}.json`, rawResponseSha256: sha256(raw) });
++    }
++    const save = () => writeFile(join(sttRoot, 'transcripts.json'), JSON.stringify(entries));
++    await save();
++    const report = await scoreTranscripts(sttRoot, fixtures, recordings);
++    const french = report.rows.filter(r => r.category === 'fr-ca');
++    assert.equal(report.categories[0].wer, french.reduce((n, r) => n + r.errors, 0) / french.reduce((n, r) => n + r.referenceWords, 0));
++    assert.equal(report.rows[0].wer, 1); assert.equal(report.humanVerdict, 'NOT_RECORDED');
++    assert.equal(report.providerApproved, false); assert.equal(report.m3Authorized, false);
++    entries[0].text = 'fabricated'; await save();
++    await assert.rejects(scoreTranscripts(sttRoot, fixtures, recordings), /RAW_MISMATCH/u);
++    entries[0].text = ''; entries[0].audioSha256 = '0'.repeat(64); await save();
++    await assert.rejects(scoreTranscripts(sttRoot, fixtures, recordings), /PROVENANCE/u);
++    entries[0].audioSha256 = recordings.rows[0].audio!.sha256; await save();
++    await writeFile(join(sttRoot, 'FQ01.json'), '{}');
++    await assert.rejects(scoreTranscripts(sttRoot, fixtures, recordings), /HASH_MISMATCH/u);
++  } finally { await rm(root, { recursive: true, force: true }); }
++});
++
++test('CLI prepares blank artifacts, refuses overwrites and returns 2 for incomplete inputs', async () => {
++  const root = await mkdtemp(join(tmpdir(), 'optique-cli-'));
++  const script = resolve('scripts/qualification.ts');
++  const run = (...args: string[]) => spawnSync(process.execPath, [script, ...args], { encoding: 'utf8', timeout: 15000 });
++  try {
++    const prepared = join(root, 'panel');
++    assert.equal(run('prepare', prepared).status, 0);
++    const notes = JSON.parse(await readFile(join(prepared, 'human-recordings/recording-notes.json'), 'utf8'));
++    assert.equal(notes.length, 50); assert.ok(notes.every((n: { consent: boolean }) => !n.consent));
++    assert.equal(run('prepare', prepared).status, 1);
++    const report = join(root, 'report.json');
++    assert.equal(run('validate', join(prepared, 'human-recordings'), report).status, 2);
++    assert.equal(JSON.parse(await readFile(report, 'utf8')).validCount, 0);
++    assert.equal(run('validate', join(prepared, 'human-recordings'), report).status, 1);
++    assert.equal(run('unknown').status, 1);
++  } finally { await rm(root, { recursive: true, force: true }); }
++});
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..0dc7e63
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,14 @@
++{
++  "compilerOptions": {
++    "target": "ES2023",
++    "lib": ["ESNext"],
++    "module": "NodeNext",
++    "moduleResolution": "NodeNext",
++    "strict": true,
++    "noEmit": true,
++    "allowImportingTsExtensions": true,
++    "types": ["node"],
++    "skipLibCheck": true
++  },
++  "include": ["src/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"]
++}
